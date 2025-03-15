@@ -40,6 +40,7 @@ body {
 
 .movie-card .left img{
   height: 250px;
+  width: 200px;
 }
 
 .movie-card .right {
@@ -134,6 +135,12 @@ footer.starcount {
   margin: 5px;
 }
 
+.removeCart-btn {
+  background-color: #db2828;
+  color:#fff;
+  text-shadow: none;
+  margin: 5px;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

@@ -1,9 +1,9 @@
-import MovieCard from "./MovieCard.js"
+import MovieList from "./MovieList.js"
 function App() {
   return (
     <>
     <h1>Movie App</h1>
-    < MovieCard/>
+    < MovieList/>
     </>
   );
 }

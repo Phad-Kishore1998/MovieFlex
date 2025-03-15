@@ -3,74 +3,21 @@ import React from "react";
 class MovieCard extends React.Component{
 
     //creating state for moviecard
-    constructor() {
-        super() //calling the extended class details
-        //as state is a build in object
-        this.state = {
-            title : "The Avenegers",
-            plot: "Super natural powers shown in the movie.",
-            price: 199,
-            rating: 8.9,
-            stars: 0,
-        }
-        //State is said to be single source of truth
-        
-        //binding the function for this class
-        this.addStars = this.addStars.bind(this);
-        this.subtractStars = this.subtractStars.bind(this);
-    }
-
-    //Creating eventHandler for the button
-    //since we are inside the class we dont require the function keyword
-    addStars() {
-        console.log("This: ", this); //binding is important read in the comments.
-        if(this.state.stars >= 5){
-            return;
-        }
-        // this.state.stars +=0.5;
-        // console.log("Stars are added.");
-        // console.log("this.state.stars : ", this.state.stars);
-        // //re-rendering the component is required update the UI.
-        // //otherwise no stars update shown.
-        // //But actual render function is in the App.js :=> Solution: use of setState()
-
-        //Form-1 using object
-        // this.setState({
-        //     stars: this.state.stars + 0.5,
-        // })
-
-        //Form-2 using callback
-        this.setState((prevState) => {
-            return {
-                stars: prevState.stars + 0.5
-            }
-        });
-
-    }
-
-    //using arrow to directly bind the function
-    subtractStars() {
-        console.log("This: ", this);
-        if(this.state.stars <= 0){
-            return;
-        }
-        //using form1 just for practice correct is form2
-        this.setState({
-            stars: this.state.stars - 0.5,
-        })
-    }
-
-    //if we want to skip the binding we can use arrow function
-
 
     render() {
         //We can destructure instead of directly using the this.state.propertyName
-        const {title, plot, price, rating, stars} = this.state;
+        console.log(this.props);
+
+        //we can remane the props object as well.
+        const {movies: data} = this.props;
+        console.log(data);
+        
+        const {title, plot, poster, price, rating, stars, fav, isInCart} = this.props.movies;
         return (
             <div className ="main">
                 <div className ="movie-card">
                     <div className ="left">
-                        <img alt="Poster" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9U2iWm-3j0JtR0vaUOgln1_DHqRxikTU0VQ&s"/>
+                        <img alt="Poster" src={poster}/>
                     </div>
                     <div className ="right">
                         <div className="title">{title}</div>
@@ -95,14 +42,24 @@ class MovieCard extends React.Component{
                                 className="str-btn"
                                 alt ="increase"
                                 src="https://cdn-icons-png.flaticon.com/128/2997/2997933.png"
-                                onClick={this.addStars}
+                                onClick={() => {this.props.addStars(this.props.movies)}}
                                 />
                                 <span className="starCount">
                                     {stars}
                                 </span>
                             </div>
-                            <button className="favourite-btn">Favourite</button>
-                            <button className="cart-btn">Add to cart</button>
+                            {/* {fav ? <button className="unfavourite-btn" onClick={this.handleFav}>Un-favourite</button>:
+                            <button className="favourite-btn" onClick={this.handleFav}>Favourite</button>} 
+                            
+                            Second way to the toggle is:
+                            conditional rendering on class name and then on button
+                            */}
+                            {<button className= {fav? "unfavourite-btn":"favourite-btn"}
+                            onClick={this.handleFav}> {fav? "Un-Favourite":"Favourite"} </button>}
+
+                            {<button className= {isInCart? "removeCart-btn":"cart-btn"}
+                            onClick={this.handleCart}> {isInCart? "Remove From Cart":"Add to Cart"} </button>}
+                            {/* <button className="cart-btn">Add to cart</button> */}
                         </div>
                     </div>
                 </div>
@@ -114,7 +71,8 @@ class MovieCard extends React.Component{
 
 export default MovieCard;
 
-/** Notes related to Movie Card
+/** 
+ * Notes related to Movie Card
 We can mingle functional component with class component thats ok.
 App.js is functional component and MovieCard is Class component
 
@@ -267,5 +225,87 @@ it will create a queue and since we are using the prevstate.
 
 All the calls will be considered.
 But re-rendering is only done once because of batching.
+
+
+
+
+constructor() {
+        super() //calling the extended class details
+        //as state is a build in object
+        this.state = 
+            {
+                title: "Justice League",
+                plot: "Super natural powers shown in the movie.",
+                poster: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_jRMZi3YlWRw3sjaBCE1itxz8cY9Q2P9W8A&s',
+                rating: 8.9,
+                price: 199,
+                stars: 0,
+                fav: false,
+                isInCart: false,
+            }
+        //State is said to be single source of truth
+        
+        //binding the function for this class
+        this.addStars = this.addStars.bind(this);
+        this.subtractStars = this.subtractStars.bind(this);
+
+    }
+
+    //Creating eventHandler for the button
+    //since we are inside the class we dont require the function keyword
+    addStars() {
+        console.log("This: ", this); //binding is important read in the comments.
+        if(this.state.stars >= 5){
+            return;
+        }
+        // this.state.stars +=0.5;
+        // console.log("Stars are added.");
+        // console.log("this.state.stars : ", this.state.stars);
+        // //re-rendering the component is required update the UI.
+        // //otherwise no stars update shown.
+        // //But actual render function is in the App.js :=> Solution: use of setState()
+
+        //Form-1 using object
+        // this.setState({
+        //     stars: this.state.stars + 0.5,
+        // })
+
+        //Form-2 using callback
+        this.setState((prevState) => {
+            return {
+                stars: prevState.stars + 0.5
+            }
+        });
+
+    }
+
+    //using arrow to directly bind the function
+    subtractStars() {
+        console.log("This: ", this);
+        if(this.state.stars <= 0){
+            return;
+        }
+        //using form1 just for practice correct is form2
+        this.setState({
+            stars: this.state.stars - 0.5,
+        })
+    }
+
+    //if we want to skip the binding we can use arrow function
+
+    //handling toggling of favourite button
+    handleFav = () =>{
+        console.log("In handleFav Function: ", this.state.fav);
+        this.setState({
+            fav: !this.state.fav,
+        }, ()=>{console.log(this.state.fav);
+        })
+    }
+
+    handleCart = () => {
+        this.setState({
+            isInCart: !this.state.isInCart,
+        })
+    }
 
  */
