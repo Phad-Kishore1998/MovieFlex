@@ -7,6 +7,7 @@ class MovieCard extends React.Component{
     render() {
         //We can destructure instead of directly using the this.state.propertyName
         console.log(this.props);
+        const {movies, addStars, decStars} = this.props;
 
         //we can remane the props object as well.
         const {movies: data} = this.props;
@@ -31,7 +32,7 @@ class MovieCard extends React.Component{
                                 className="str-btn"
                                 alt ="decrease"
                                 src="https://cdn-icons-png.flaticon.com/128/1828/1828901.png"
-                                onClick={this.subtractStars}
+                                onClick={()=>{decStars(movies)}}
                                 />
                                 <img 
                                 alt="star" 
@@ -42,7 +43,7 @@ class MovieCard extends React.Component{
                                 className="str-btn"
                                 alt ="increase"
                                 src="https://cdn-icons-png.flaticon.com/128/2997/2997933.png"
-                                onClick={() => {this.props.addStars(this.props.movies)}}
+                                onClick={() => {addStars(movies)}}
                                 />
                                 <span className="starCount">
                                     {stars}

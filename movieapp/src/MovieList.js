@@ -58,13 +58,30 @@ class MovieList extends Component {
             movies: movies
         })
     }
+
+    handleDecStar = (movie) => {
+        console.log("Called Parent Handle Dec Star for movie", movie.title);
+        
+        const {movies} = this.state;
+        const mid = movies.indexOf(movie);
+
+        if(movies[mid].stars <= 0){
+            return;
+        }
+        movies[mid].stars -= 0.5;
+
+        this.setState({
+            movies: movies
+        })
+    }
     
 
     render() {
         const {movies} = this.state;
        return(
         <>
-            {movies.map((movie)=> <MovieCard movies = {movie} addStars = {this.handleIncStar}/>)}
+            {movies.map((movie)=> <MovieCard movies = {movie} addStars = {this.handleIncStar}
+            decStars = {this.handleDecStar}/>)}
         </>
        ) 
     }
